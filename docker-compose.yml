@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  node-1:
+    #"build" takes the path to the dockerfile
+    build: ./nodeapp/one
+    #set nginx hostname here
+    hostname: node_1
+    ports:
+      - '5001:5001'
+
+  node-2:
+    #"build" takes the path to the dockerfile
+    build: ./nodeapp/two
+    #set nginx hostname here
+    hostname: node_2
+    ports:
+      - '5002:5002'    
+
+  #nginx for load balancing
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - node-1
+      - node-2
